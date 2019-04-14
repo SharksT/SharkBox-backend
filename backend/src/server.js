@@ -5,7 +5,7 @@ const app = express();
 
 mongoose.connect('mongodb+srv://admin:admin@cluster0-tejxt.mongodb.net/test?retryWrites=true',
 {
-    useNewUrlParser : true
+    useNewUrlParser : true,
 });
 
 app.use(express.json());
