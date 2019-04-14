@@ -31,4 +31,4 @@ app.use(express.urlencoded({extended: true}));
 app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
 app.use(require('./routes'));
 
-server.listen(3338);
+server.listen(process.env.PORT || 3338);
