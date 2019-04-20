@@ -22,6 +22,7 @@ mongoose.connect(
     useNewUrlParser: true
   }
 );
+mongoose.set("useCreateIndex", true);
 
 app.use((req, res, next) => {
   req.io = io;
