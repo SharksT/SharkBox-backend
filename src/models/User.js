@@ -15,6 +15,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     select: false
   },
+  boxes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Box" }],
   createdAt: {
     type: Date,
     default: Date.now
@@ -22,8 +23,10 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre("save", async function(next) {
-  const hash = await bcrypt.hash(this.password, 10);
-  this.password = hash;
+  if (this.boxes === []) {
+    const hash = await bcrypt.hash(this.password, 10);
+    this.password = hash;
+  }
 
   next();
 });

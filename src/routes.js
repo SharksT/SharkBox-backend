@@ -12,9 +12,9 @@ routes.post("/register", authController.create);
 routes.post("/", authController.logIn);
 
 routes.use(authMiddleware);
-routes.post("/boxes", BoxController.store);
-routes.get("/boxes/:id", BoxController.show);
-
+routes.post("/:id/boxes", BoxController.store);
+routes.get("/:id/boxes/:id", BoxController.show);
+routes.get("/:id/boxes/", BoxController.showBoxes);
 routes.post(
   "/boxes/:id/files",
   multer(multerConfig).single("file"),
