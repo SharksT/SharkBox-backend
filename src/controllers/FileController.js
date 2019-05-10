@@ -3,7 +3,7 @@ const Box = require("../models/Box");
 const User = require("../models/User");
 class FileController {
   async store(req, res) {
-    // Criar arquivo
+    // Criar arquivogit
     const file = await File.create({
       title: req.file.originalname,
       path: req.file.key
@@ -12,19 +12,19 @@ class FileController {
       const user = await User.findById(req.params.id);
       user.files.push(file);
       await user.save();
+      req.io.sockets.in(box._id).emit("file", file);
+      return res.json(file);
     } catch {
       try {
         const box = await Box.findById(req.params.id);
         box.files.push(file);
         await box.save();
+        req.io.sockets.in(box._id).emit("file", file);
+        return res.json(file);
       } catch (err) {
         return res.status(400).send({ error: "ID not found" });
       }
     }
-
-    req.io.sockets.in(box._id).emit("file", file);
-
-    return res.json(file);
   }
 }
 
