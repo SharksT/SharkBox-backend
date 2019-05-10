@@ -2,11 +2,22 @@ const Box = require("../models/Box");
 const User = require("../models/User");
 class BoxController {
   async store(req, res) {
-    const user = await User.findById(req.params.id);
     const box = await Box.create(req.body);
-    user.boxes.push(box);
-    await user.save();
-    return res.json(user);
+    try {
+      const user = await User.findById(req.params.id);
+      user.boxes.push(box);
+      await user.save();
+      return res.json(user);
+    } catch {
+      try {
+        const boxes = await Box.findById(req.params.id);
+        boxes.boxes.push(box);
+        await boxes.save();
+        return res.json(boxes);
+      } catch (err) {
+        return res.status(400).send({ error: "ID not found" });
+      }
+    }
   }
 
   async show(req, res) {
