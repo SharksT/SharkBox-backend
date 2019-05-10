@@ -15,6 +15,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     select: false
   },
+  files: [{ type: mongoose.Schema.Types.ObjectId, ref: "File" }],
   boxes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Box" }],
   createdAt: {
     type: Date,
