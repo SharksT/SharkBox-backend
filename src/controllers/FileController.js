@@ -15,12 +15,10 @@ class FileController {
       req.io.sockets.in(box._id).emit("file", file);
       return res.json(file);
     } catch {
-      return res.status(400).send({ error: `${user}` });
       try {
-        const box = await Box.findById(req.params.id);
-        box.files.push(file);
-        await box.save();
-        req.io.sockets.in(box._id).emit("file", file);
+        const boxes = await Box.findById(req.params.id);
+        boxes.files.push(file);
+        await boxes.save();
         return res.json(file);
       } catch (err) {
         return res.status(400).send({ error: "ID not found" });
