@@ -15,6 +15,7 @@ class FileController {
       req.io.sockets.in(box._id).emit("file", file);
       return res.json(file);
     } catch {
+      return res.status(400).send({ error: `${user}` });
       try {
         const box = await Box.findById(req.params.id);
         box.files.push(file);
