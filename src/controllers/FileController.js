@@ -12,7 +12,7 @@ class FileController {
       const user = await User.findById(req.params.id);
       user.files.push(file);
       await user.save();
-      req.io.sockets.in(box._id).emit("file", file);
+      //req.io.sockets.in(box._id).emit("file", file);
       return res.json(file);
     } catch {
       try {
