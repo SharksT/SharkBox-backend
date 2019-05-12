@@ -19,7 +19,7 @@ class FileController {
         const boxes = await Box.findById(req.params.id);
         boxes.files.push(file);
         await boxes.save();
-        req.io.sockets.in(box._id).emit("file", file);
+        req.io.sockets.in(boxes._id).emit("file", file);
         return res.json(file);
       } catch (err) {
         return res.status(400).send({ error: "ID not found" });

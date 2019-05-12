@@ -33,7 +33,15 @@ class BoxController {
       path: "boxes",
       options: { sort: { createdAt: -1 } }
     });
-    return res.json(user);
+    if (user !== null) {
+      return res.json(user);
+    } else {
+      const box = await Box.findById(req.params.id).populate({
+        path: "boxes",
+        options: { sort: { createdAt: -1 } }
+      });
+      return res.json(box);
+    }
   }
 }
 

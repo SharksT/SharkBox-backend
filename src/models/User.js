@@ -24,11 +24,10 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre("save", async function(next) {
-  if (this.boxes === [] || this.files === []) {
-    const hash = await bcrypt.hash(this.password, 10);
-    this.password = hash;
-  }
-
+  var user = this;
+  if (!user.isModified("password")) return next();
+  const hash = await bcrypt.hash(this.password, 10);
+  this.password = hash;
   next();
 });
 
