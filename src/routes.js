@@ -15,6 +15,8 @@ routes.use(authMiddleware);
 routes.post("/:id/boxes", BoxController.store);
 routes.get("/:id/boxes/:id", BoxController.show);
 routes.get("/:id/boxes/", BoxController.showBoxes);
+routes.post("/:id/deletefile", FileController.delete);
+routes.post("/:id/deletebox", BoxController.delete);
 routes.post(
   "/boxes/:id/files",
   multer(multerConfig).single("file"),

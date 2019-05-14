@@ -26,6 +26,19 @@ class FileController {
       }
     }
   }
+  async delete(req, res) {
+    try {
+      await File.findByIdAndRemove(req.params.id, (err, res2) => {
+        if (res2 == null && err == null) {
+          return res.status(400).send({ error: "File not found" });
+        } else {
+          return res.json("Deleted sucessfully");
+        }
+      });
+    } catch {
+      return res.status(400).send({ error: "File not found" });
+    }
+  }
 }
 
 module.exports = new FileController();
