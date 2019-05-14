@@ -29,17 +29,15 @@ class BoxController {
   }
 
   async showBoxes(req, res) {
-    const user = await User.findById(req.params.id).populate({
-      path: "boxes",
-      options: { sort: { createdAt: -1 } }
-    });
+    var populateQuery = [
+      { path: "boxes", options: { sort: { createdAt: -1 } } },
+      { path: "files", options: { sort: { createdAt: -1 } } }
+    ];
+    const user = await User.findById(req.params.id).populate(populateQuery);
     if (user !== null) {
       return res.json(user);
     } else {
-      const box = await Box.findById(req.params.id).populate({
-        path: "boxes",
-        options: { sort: { createdAt: -1 } }
-      });
+      const box = await Box.findById(req.params.id).populate(populateQuery);
       return res.json(box);
     }
   }
