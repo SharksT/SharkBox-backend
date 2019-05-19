@@ -7,12 +7,14 @@ class BoxController {
       const user = await User.findById(req.params.id);
       user.boxes.push(box);
       await user.save();
+      req.io.sockets.in(user._id).emit("box", box);
       return res.json(user);
     } catch {
       try {
         const boxes = await Box.findById(req.params.id);
         boxes.boxes.push(box);
         await boxes.save();
+        req.io.sockets.in(boxes._id).emit("box", box);
         return res.json(boxes);
       } catch (err) {
         return res.status(400).send({ error: "ID not found" });
